@@ -1,7 +1,7 @@
 # OI-Master Chess
 Welcome to OI-Master Chess Github Repo!
 
-## 项目进度
+## Progress
 
 - [x] Play chess online
 - [ ] Control sounds
