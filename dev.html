@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>OI-Master Chess</title>
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
+    <body>
+        <h1>Socket.io Tester Page</h1>
+        <small>
+            Please leave this page if you do not know what it is doing.
+            <br />
+            Warning: OI-Master Only. When you visit this page, you has been recorded.
+        </small>
+    </body>
+    <script>
+        var socket = io();
+        socket.on('connect', () => {
+            console.log('Connected to server');
+        });
+        socket.on('full', () => {
+            console.log('Server is full');
+        });
+        socket.on('start', () => {
+            console.log('ready to start');
+            socket.emit('okStart');
+        });
+        socket.on('color', (data) => {
+            if (data == 'white'){
+                console.log('You are white');
+            } else {
+                console.log('You are black');
+            }
+        });
+        socket.on('buggy', () => {
+            alert('something went wrong');
+            window.close();
+        });
+    </script>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>OI-Master Chess</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="/assets/styles/screen.css" />
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1>
+            OI-Master Chess
+            <small>
+                 - Play chess online!
+            </small>
+        </h1>
+        <small>This project's repository on GitHub is <a href="https://github.com/oimasterakioi/oimchess">here</a>. It uses <a href="https://github.com/shaack/chess-console">chess-console</a>.</small>
+        <div id="console-container"></div>
+    </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+    integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+<script type="module">
+    var socket = io();
+
+    import { ChessConsole } from "/src/chess-console/ChessConsole.js"
+    import { LocalPlayer } from "/src/chess-console/players/LocalPlayer.js"
+    import { RandomPlayer } from "/src/chess-console/players/RandomPlayer.js"
+    import { Board } from "/src/chess-console/components/Board/Board.js"
+    import { GameStateOutput } from "/src/chess-console/components/GameStateOutput.js"
+    import { History } from "/src/chess-console/components/History.js"
+    import { CapturedPieces } from "/src/chess-console/components/CapturedPieces.js"
+    import { HistoryControl } from "/src/chess-console/components/HistoryControl.js"
+    import { GameControl } from "/src/chess-console/components/GameControl/GameControl.js"
+    import { Persistence } from "/src/chess-console/components/Persistence.js"
+    import { Sound } from "/src/chess-console/components/Sound.js"
+
+    var chess = new ChessConsole(
+        document.getElementById("console-container"),
+        { name: "You", type: LocalPlayer },
+        {
+            name: "Opponent", type: RandomPlayer, props: {
+                socket: socket
+            }
+        },
+        {
+            socket: socket,
+            figuresSpriteFile: "/node_modules/cm-chessboard/assets/images/chessboard-sprite-staunty.svg"
+        }
+    ).initialization.then((chessConsole) => {
+        new Board(chessConsole).initialization.then(() => {
+            new Persistence(chessConsole, {
+                savePrefix: "oimchess"
+            }).load()
+        })
+        new GameStateOutput(chessConsole)
+        new History(chessConsole)
+        new HistoryControl(chessConsole)
+        new CapturedPieces(chessConsole)
+        new GameControl(chessConsole)
+        new Sound(chessConsole, {
+            soundSpriteFile: "/assets/sounds/chess_console_sounds.mp3"
+        })
+
+        socket.on('connect', () => {
+            console.log('Connected to server');
+        });
+        socket.on('full', () => {
+            console.log('Server is full');
+            alert('server is full');
+            refresh();
+        });
+        socket.on('start', () => {
+            console.log('ready to start');
+            socket.emit('okStart');
+        });
+        socket.on('color', (data) => {
+            if (data == 'white') {
+                console.log('You are white');
+                chessConsole.initGame({
+                    locale: navigator.language, // locale for i18n
+                    playerColor: "w", // the players color (color at bottom)
+                    pgn: undefined, // initial pgn, can contain header and history
+                    // Sound
+                    soundSpriteFile: "/assets/sounds/chess_console_sounds.mp3",
+                    // Board
+                    chessboardSpriteFile: "/assets/images/chessboard-sprite.svg",
+                    // Persistence
+                    savePrefix: "oimchess" // the name in LocalStorage
+                })
+                $('.btn-light').attr('disabled', 'true');
+            } else {
+                console.log('You are black');
+                chessConsole.initGame({
+                    locale: navigator.language, // locale for i18n
+                    playerColor: "b", // the players color (color at bottom)
+                    pgn: undefined, // initial pgn, can contain header and history
+                    // Sound
+                    soundSpriteFile: "/assets/sounds/chess_console_sounds.mp3",
+                    // Board
+                    chessboardSpriteFile: "/assets/images/chessboard-sprite.svg",
+                    // Persistence
+                    savePrefix: "oimchess" // the name in LocalStorage
+                });
+            }
+        });
+        socket.on('buggy', () => {
+            alert('something went wrong');
+            refresh();
+        });
+    });
+</script>
+
+
+
+</html>
