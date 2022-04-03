@@ -1,0 +1,37 @@
+{
+  "name": "chess-console",
+  "version": "4.12.3",
+  "description": "ES6 Module for playing chess",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "node postinstall.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shaack/chess-console.git"
+  },
+  "keywords": [
+    "ES6",
+    "chess",
+    "stockfish",
+    "chessboard",
+    "bootstrap",
+    "jquery"
+  ],
+  "author": "shaack (https://shaack.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shaack/chess-console/issues"
+  },
+  "homepage": "https://github.com/shaack/chess-console#readme",
+  "dependencies": {
+    "bootstrap-show-modal": "^1.4.4",
+    "chess.mjs": "^1.2.0",
+    "cm-chess": "^2.1.8",
+    "cm-chessboard": "^3.16.7",
+    "cm-pgn": "^2.1.8",
+    "cm-web-modules": "^1.16.0",
+    "modrator": "^1.2.1"
+  }
+}

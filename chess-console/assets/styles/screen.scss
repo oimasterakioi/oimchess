@@ -1,0 +1,11 @@
+@import "../../node_modules/bootstrap/scss/bootstrap";
+@import "chess-console.scss";
+@import "../../node_modules/cm-chessboard/assets/styles/cm-chessboard.scss";
+
+html {
+  body {
+    .container-fluid {
+      max-width: 1200px;
+    }
+  }
+}

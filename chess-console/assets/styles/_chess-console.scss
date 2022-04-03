@@ -1,0 +1,166 @@
+
+.flex-buttons {
+  display: flex;
+  flex-wrap: wrap;
+
+  button {
+    margin-right: $spacer / 2;
+    margin-bottom: $spacer / 2;
+    background-color: transparent;
+
+    &:disabled {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  margin-bottom: $spacer / 2;
+}
+
+.chess-console {
+
+  .fa-figure-white {
+    color: white;
+    text-shadow: 1px 1px 1px black, 1px -1px 1px black, -1px 1px 1px black, -1px -1px 1px black;
+  }
+
+  .fa-figure-black {
+    color: black;
+    text-shadow: 1px 1px 1px white, 1px -1px 1px white, -1px 1px 1px white, -1px -1px 1px white;
+    transform: scale(1.14);
+  }
+
+  .chess-console-right, .chess-console-left {
+    margin-top: 20px;
+  }
+
+  .chess-console-board {
+    // margin-top: -1.4em;
+    .chessboard {
+      width: 100%;
+    }
+
+    .player {
+      // text-align: center;
+      font-weight: bold;
+      font-size: 120%;
+
+      &.to-move:after {
+        color: #333;
+        margin-left: 8px;
+        content: "■";
+      }
+    }
+
+    .clock {
+      font-family: 'DSDIGI', sans-serif;
+      font-size: 150%;
+      line-height: 0.99;
+    }
+  }
+
+  .chess-console-left {
+    .history {
+      max-height: 284px;
+      max-width: 210px;
+      overflow-y: auto;
+      overflow-x: visible;
+      margin-bottom: 2 * $spacer;
+      width: calc(100% + 8px);
+
+      table {
+        width: 100%;
+
+        .num {
+          width: 18%;
+        }
+
+        .ply {
+          width: 41%;
+          i {
+            pointer-events: none;
+          }
+          &.active {
+            font-weight: bold;
+          }
+        }
+      }
+      &.clickable {
+        .ply {
+          cursor: pointer;
+        }
+      }
+    }
+
+    .captured-pieces {
+      margin-bottom: $spacer;
+      font-size: 120%;
+    }
+  }
+
+  .chess-console-right {
+    .flex-buttons {
+      .autoplay {
+        .fa-play {
+          color: $green;
+        }
+
+        .fa-stop {
+          color: $orange;
+        }
+      }
+
+      .btn-light {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .btn-active {
+        color: $green;
+      }
+    }
+
+    .game-status {
+      font-weight: bold;
+      margin-bottom: $spacer;
+    }
+
+    .last-error {
+      color: $danger;
+      margin-bottom: $spacer;
+    }
+
+    .move-input {
+      margin-bottom: $spacer;
+
+      .first-move {
+        color: $gray-800;
+        font-size: 280%;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .move-input-controls {
+        width: 100%;
+
+        button {
+          float: left;
+          margin-right: $spacer / 2;
+          margin-bottom: $spacer / 2;
+        }
+      }
+    }
+  }
+}
+
+.modal svg.piece {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ccc;
+  }
+}
+
+button.close {
+  cursor: pointer;
+}
